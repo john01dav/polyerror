@@ -1,8 +1,15 @@
 [package]
 name = "polyerror"
 version = "0.0.1"
-authors = ["john01dav <john01dav@gmail.com>"]
+authors = ["David Johnson <john01dav@gmail.com>"]
 edition = "2018"
+documentation = "https://docs.rs/polyerror"
+description = "Macro to make errors easy and expressive"
+readme = "README.md"
+homepage = "https://github.com/john01dav/polyerror"
+license="MIT OR Apache-2.0"
+keywords = ["error", "macro"]
+categories = ["development-tools"]
 
 [lib]
 proc-macro = true

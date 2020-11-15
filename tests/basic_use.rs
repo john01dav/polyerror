@@ -1,14 +1,18 @@
-use std::str::ParseBoolError;
-use std::num::ParseIntError;
+use error_test::{ParseThenCombineError, parse_then_combine};
 
 #[macro_use]
 extern crate polyerror;
 
-create_error!(ParseThenCombineError: ParseBoolError, ParseIntError);
-fn parse_then_combine(a: &str, b: &str) -> Result<String, ParseThenCombineError>{
-    let parsed_bool: bool = a.parse()?;
-    let parsed_int: i32 = b.parse()?;
-    Ok(format!("{} {}", parsed_bool, parsed_int))
+mod error_test { //you don't need to have a separate module like this, but it is added to the test to test that the `pub` specification works
+    use std::str::ParseBoolError;
+    use std::num::ParseIntError;
+
+    create_error!(pub ParseThenCombineError: ParseBoolError, ParseIntError);
+    pub fn parse_then_combine(a: &str, b: &str) -> Result<String, ParseThenCombineError> {
+        let parsed_bool: bool = a.parse()?;
+        let parsed_int: i32 = b.parse()?;
+        Ok(format!("{} {}", parsed_bool, parsed_int))
+    }
 }
 
 #[test]

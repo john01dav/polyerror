@@ -14,12 +14,13 @@ extern crate syn;
 pub fn create_error(input: TokenStream) -> TokenStream {
     let error_specification = parse_macro_input!(input as ErrorSpecification);
 
+    let visibility = &error_specification.visibility;
     let trait_name = &error_specification.name;
     let variants: Vec<Variant> = error_specification.error_types.into_iter().map(|path| Variant::from(path)).collect();
 
     let mut tokens = quote! {
         #[derive(::std::fmt::Debug)]
-        pub enum #trait_name{
+        #visibility enum #trait_name{
             #(#variants),*
         }
 

@@ -1,20 +1,23 @@
 use syn::export::{Debug, Formatter};
 use syn::parse::{Parse, ParseStream};
-use syn::{Ident, Path, Token};
+use syn::{Ident, Path, Token, Visibility};
 
 pub struct ErrorSpecification {
+    pub visibility: Visibility,
     pub name: Ident,
     pub error_types: Vec<Path>,
 }
 
 impl Parse for ErrorSpecification {
     fn parse(input: ParseStream<'_>) -> syn::Result<Self> {
+        let visibility: Visibility = input.parse()?;
         let name: Ident = input.parse()?;
         let _ = input.parse::<Token![:]>()?;
         let punctuated = input.parse_terminated::<Path, Token![,]>(Path::parse)?;
         let error_types: Vec<Path> = punctuated.into_iter().collect();
 
         Ok(ErrorSpecification {
+            visibility,
             name,
             error_types,
         })

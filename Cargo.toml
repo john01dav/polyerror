@@ -1,6 +1,6 @@
 [package]
 name = "polyerror"
-version = "0.0.0"
+version = "0.0.1"
 authors = ["john01dav <john01dav@gmail.com>"]
 edition = "2018"
 

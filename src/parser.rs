@@ -1,6 +1,6 @@
-use syn::export::{Debug, Formatter};
 use syn::parse::{Parse, ParseStream};
 use syn::{Ident, Path, Token, Visibility};
+use std::fmt::{Debug, Formatter};
 
 pub struct ErrorSpecification {
     pub visibility: Visibility,

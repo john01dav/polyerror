@@ -44,7 +44,9 @@ impl Debug for ErrorSpecification {
 }
 
 #[test]
-fn test_parse_of_error_specification(){
-    let parsed: ErrorSpecification = syn::parse_str("NewErrorTypeName: crate1::Error1, crate2::some_module::Error2").expect("Parse failed");
+fn test_parse_of_error_specification() {
+    let parsed: ErrorSpecification =
+        syn::parse_str("NewErrorTypeName: crate1::Error1, crate2::some_module::Error2")
+            .expect("Parse failed");
     assert_eq!(format!("{:?}", parsed), String::from("ErrorSpecification { name: NewErrorTypeName, error_types: [[Ident(crate1), Ident(Error1)], [Ident(crate2), Ident(some_module), Ident(Error2)]] }"));
 }

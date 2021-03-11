@@ -1,24 +1,24 @@
-use syn::Path;
-use proc_macro2::{Ident, Span};
-use quote::{ToTokens, TokenStreamExt};
 use inflector::cases::classcase::to_class_case;
+use proc_macro2::{Ident, Span};
+use quote::{quote, ToTokens, TokenStreamExt};
+use syn::Path;
 
-pub struct Variant{
+pub struct Variant {
     variant_name: String,
-    error_type: Path
+    error_type: Path,
 }
 
-impl From<Path> for Variant{
+impl From<Path> for Variant {
     fn from(path: Path) -> Self {
-        Variant{
+        Variant {
             variant_name: recapitalize_error_path(&path),
-            error_type: path
+            error_type: path,
         }
     }
 }
 
-impl Variant{
-    pub fn build_from_impl(&self, enum_name: &Ident, tokens: &mut proc_macro2::TokenStream){
+impl Variant {
+    pub fn build_from_impl(&self, enum_name: &Ident, tokens: &mut proc_macro2::TokenStream) {
         let name = Ident::new(&self.variant_name, Span::call_site());
         let error_type = &self.error_type;
         tokens.append_all(quote! {
@@ -31,7 +31,7 @@ impl Variant{
     }
 }
 
-impl ToTokens for Variant{
+impl ToTokens for Variant {
     fn to_tokens(&self, tokens: &mut proc_macro2::TokenStream) {
         let name = Ident::new(&self.variant_name, Span::call_site());
         let error_type = &self.error_type;
@@ -41,17 +41,17 @@ impl ToTokens for Variant{
     }
 }
 
-fn recapitalize_error_path(path: &Path) -> String{
+fn recapitalize_error_path(path: &Path) -> String {
     let mut words = Vec::new();
-    for segment in &path.segments{
+    for segment in &path.segments {
         let name_string = segment.ident.to_string();
-        for word in name_string.split("_"){
+        for word in name_string.split('_') {
             words.push(String::from(word));
         }
     }
 
     let mut name = String::new();
-    for word in words{
+    for word in words {
         name.push_str(&to_class_case(&word));
     }
 
